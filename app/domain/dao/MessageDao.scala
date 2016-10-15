@@ -2,7 +2,7 @@ package domain.dao
 
 import javax.inject.{Inject, Singleton}
 
-import domain.entity.{MessageEntity, UserEntiry}
+import domain.entity.MessageEntity
 import play.api.db.slick.DatabaseConfigProvider
 import slick.driver.JdbcProfile
 
@@ -28,7 +28,7 @@ class MessageDao @Inject()(val dbConfigProvider: DatabaseConfigProvider) {
     def * = (id.?, userid, text) <> ((MessageEntity.apply _).tupled, MessageEntity.unapply)
   }
 
-  private val messages = TableQuery[MessageEntity]
+  private val messages = TableQuery[MessageTable]
 
   def all(): Future[List[MessageEntity]] = dbConfig.db.run(messages.result).map(_.toList)
 }
